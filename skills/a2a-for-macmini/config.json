@@ -1,0 +1,8 @@
+{
+  "brokerUrl": "http://a2a-discovery.query.prod.telnyx.io:4000",
+  "agentId": "marketing.squad:Daniel-Sahn:website-ops",
+  "pollTimeout": 60,
+  "openclawApiUrl": "http://localhost:18789",
+  "openclawTokenPath": "~/.openclaw/gateway-token.txt",
+  "openclawAgent": "main"
+}
