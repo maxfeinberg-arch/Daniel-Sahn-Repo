@@ -62,7 +62,7 @@ Only include fields you are changing. Omitted fields stay as-is.
 | `excerpt` | 1–2 sentences for listing cards |
 | `content` | Full body — markdown accepted |
 | `publishDate` | Do not change unless explicitly asked — this is the original publish date |
-| `modifiedDate` | Update to current timestamp **only before revalidating** (not on every edit) |
+| `modifiedDate` | Update to current timestamp **once, right before publishing** (not on every draft edit, not during revalidation) |
 | `backgroundColor` | Known values: `tan`, `black`, `white` |
 | `author.documentId` | Must be a valid Strapi author documentId |
 | `category.documentId` | Must be a valid Strapi category documentId |

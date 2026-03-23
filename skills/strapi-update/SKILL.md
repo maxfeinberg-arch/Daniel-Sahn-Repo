@@ -41,9 +41,9 @@ Content-Type: application/json
 3. **Update the draft** — `PUT /rc-posts/{documentId}?status=draft` — **`?status=draft` is mandatory**, omitting it writes directly to the live published version
 4. **Share staging link** — `https://www.dev.telnyx.com/resources/{slug}`
 5. **Wait for approval #1** — get Max's explicit approval before publishing
-6. **Publish to prod** — publish the entry in Strapi
+6. **Publish to prod** — set `modifiedDate` to now, then publish the entry in Strapi
 7. **Wait for approval #2** — get Max's explicit approval before revalidating
-8. **Revalidate** — trigger cache revalidation so the live site reflects the change
+8. **Revalidate** — bust the cache so the live site reflects the change (no data changes)
 
 ---
 
@@ -91,15 +91,25 @@ curl -s "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft&popul
 ```
 
 ### Publish to Prod (ONLY with explicit approval from Max)
+
+Publishing is a two-step process: first update `modifiedDate` on the draft, then publish.
+`modifiedDate` signals to the site when the content was last meaningfully changed. Set it **here**, not during revalidation.
+
 ```bash
-curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}" \
+# Step 1: Set modifiedDate to now on the draft
+curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft" \
   -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
-      "publishedAt": "'"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"'"
+      "modifiedDate": "'"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"'"
     }
   }'
+
+# Step 2: Publish (promotes draft — including updated modifiedDate — to live)
+curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts/{documentId}/actions/publish" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
+  -H "Content-Type: application/json"
 ```
 
 ### Unpublish Entry
@@ -136,24 +146,9 @@ After publishing, the live site still serves the cached version. Revalidation pu
 
 **⚠️ This is a separate approval step. Do not revalidate just because Max approved publishing. Ask again: "Published. Ready to revalidate and push live?"**
 
-**Before revalidating, update `modifiedDate` to the current timestamp:**
+Revalidation is just a cache bust — no data changes happen here. `modifiedDate` was already set during the publish step above.
+
 ```bash
-# Step 1: Set modifiedDate to now (use ?status=draft then publish)
-curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft" \
-  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "data": {
-      "modifiedDate": "'"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"'"
-    }
-  }'
-
-# Step 2: Re-publish with the updated modifiedDate
-curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts/{documentId}/actions/publish" \
-  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
-  -H "Content-Type: application/json"
-
-# Step 3: Revalidate (no auth required)
 curl -s -X POST "https://telnyx.com/api/revalidate?path=/resources/{slug}" \
   -H "Content-Type: application/json" -d ''
 ```
