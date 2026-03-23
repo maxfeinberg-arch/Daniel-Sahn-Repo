@@ -112,15 +112,20 @@ elif [[ "$HTTP_CODE" -eq 200 ]]; then
   
   # Store contextId for future conversations with this agent
   if [[ -n "$RESPONSE_CONTEXT_ID" ]]; then
-    # Create/update contexts.json
-    if [[ ! -f "$CONTEXTS_FILE" ]]; then
-      echo "{}" > "$CONTEXTS_FILE"
-    fi
-    
-    # Update contextId for this agent
-    jq --arg agent_id "$AGENT_ID" --arg context_id "$RESPONSE_CONTEXT_ID" \
-      '.[$agent_id] = $context_id' "$CONTEXTS_FILE" > "$CONTEXTS_FILE.tmp" && \
-      mv "$CONTEXTS_FILE.tmp" "$CONTEXTS_FILE"
+    # Create/update contexts.json with file locking to prevent race conditions
+    LOCK_FILE="$CONTEXTS_FILE.lock"
+    (
+      flock -w 5 200 || { echo "Warning: Could not acquire lock on contexts.json" >&2; exit 0; }
+
+      if [[ ! -f "$CONTEXTS_FILE" ]]; then
+        echo "{}" > "$CONTEXTS_FILE"
+      fi
+
+      # Update contextId for this agent
+      jq --arg agent_id "$AGENT_ID" --arg context_id "$RESPONSE_CONTEXT_ID" \
+        '.[$agent_id] = $context_id' "$CONTEXTS_FILE" > "$CONTEXTS_FILE.tmp" && \
+        mv "$CONTEXTS_FILE.tmp" "$CONTEXTS_FILE"
+    ) 200>"$LOCK_FILE"
     
     # Show feedback only if this is a new context
     if [[ "$CONTEXT_ID" != "$RESPONSE_CONTEXT_ID" ]]; then

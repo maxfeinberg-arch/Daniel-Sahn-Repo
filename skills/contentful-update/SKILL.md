@@ -177,5 +177,5 @@ Always report the full error response to the user before retrying.
 ## Memory
 
 Create the `memory/` directory if it doesn't exist, then append to:
-- **Updated entries** → `memory/pages-created.md`
+- **Updated entries** → `memory/pages-updated.md`
 - **Patterns learned** → `memory/learnings.md`
