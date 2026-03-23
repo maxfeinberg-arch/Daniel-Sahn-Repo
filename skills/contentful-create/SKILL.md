@@ -17,9 +17,9 @@ Staging Base: https://www.dev.telnyx.com
 ```
 
 **Tokens:**
-- Content Management API (write/publish): `[REDACTED_CONTENTFUL_TOKEN]`
-- Content Delivery API (read): `70CnXqxj2VznNujlGXc0np9Bq4zUs5tIO7BQGj_QKRA`
-- Content Preview API (read): `W5wlJh5ESF5W736xXfGUTfJ_Tr3W5BDlN4IsoW2vCl0`
+- Content Management API (write/publish): `CFPAT-YOUR_CMA_TOKEN_HERE`
+- Content Delivery API (read): `YOUR_CDA_TOKEN_HERE`
+- Content Preview API (read): `YOUR_CPA_TOKEN_HERE`
 
 ## ⚠️ Token Note
 
@@ -51,7 +51,7 @@ If the user asks what fields are needed, return the relevant template from INPUT
 ### Inspect Content Type Schema
 ```bash
 curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/content_types/{TYPE_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "
 import sys, json
 ct = json.load(sys.stdin)
 for f in ct['fields']:
@@ -62,7 +62,7 @@ for f in ct['fields']:
 ### Create Entry (Draft)
 ```bash
 curl -s -X POST "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "Content-Type: application/vnd.contentful.management.v1+json" \
   -H "X-Contentful-Content-Type: {CONTENT_TYPE}" \
   -d '{
@@ -76,10 +76,10 @@ curl -s -X POST "https://api.contentful.com/spaces/2vm221913gep/environments/mas
 ### Publish Entry (ONLY with explicit approval)
 ```bash
 VERSION=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
 curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}/published" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "X-Contentful-Version: $VERSION"
 ```
 
@@ -87,33 +87,33 @@ curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/mast
 ```bash
 # Step 1: Upload binary
 UPLOAD_ID=$(curl -s -X POST "https://upload.contentful.com/spaces/2vm221913gep/uploads" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "Content-Type: application/octet-stream" \
   --data-binary @/path/to/file | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['id'])")
 
 # Step 2: Create asset entry
 ASSET_ID=$(curl -s -X POST "https://api.contentful.com/spaces/2vm221913gep/environments/master/assets" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "Content-Type: application/vnd.contentful.management.v1+json" \
   -d "{\"fields\":{\"title\":{\"en-US\":\"My Asset\"},\"file\":{\"en-US\":{\"contentType\":\"image/png\",\"fileName\":\"file.png\",\"uploadFrom\":{\"sys\":{\"type\":\"Link\",\"linkType\":\"Upload\",\"id\":\"$UPLOAD_ID\"}}}}}}" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['id'])")
 
 # Step 3: Process (fetch version first)
 ASSET_VERSION=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/assets/$ASSET_ID" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
 curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/master/assets/$ASSET_ID/files/en-US/process" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "X-Contentful-Version: $ASSET_VERSION"
 
 # Step 4: Publish asset (required before it can be linked to entries)
 sleep 2  # wait for processing to complete
 
 ASSET_VERSION=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/assets/$ASSET_ID" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
 curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/master/assets/$ASSET_ID/published" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "X-Contentful-Version: $ASSET_VERSION"
 ```
 

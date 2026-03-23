@@ -16,9 +16,9 @@ Staging Base: https://www.dev.telnyx.com
 ```
 
 **Tokens:**
-- Content Management API (write/publish): `[REDACTED_CONTENTFUL_TOKEN]`
-- Content Delivery API (read): `70CnXqxj2VznNujlGXc0np9Bq4zUs5tIO7BQGj_QKRA`
-- Content Preview API (read): `W5wlJh5ESF5W736xXfGUTfJ_Tr3W5BDlN4IsoW2vCl0`
+- Content Management API (write/publish): `CFPAT-YOUR_CMA_TOKEN_HERE`
+- Content Delivery API (read): `YOUR_CDA_TOKEN_HERE`
+- Content Preview API (read): `YOUR_CPA_TOKEN_HERE`
 
 ## ⚠️ Rules
 
@@ -36,13 +36,13 @@ Staging Base: https://www.dev.telnyx.com
 ### Get Entry (read current state + version)
 ```bash
 curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]"
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE"
 ```
 
 ### Search Entries by Content Type
 ```bash
 curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries?content_type={TYPE}&limit=10" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['items']:
@@ -53,7 +53,7 @@ for item in data['items']:
 ### Search Entry by Slug
 ```bash
 curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries?content_type={TYPE}&fields.slug={SLUG}&limit=1" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 if data['total'] == 0:
@@ -74,7 +74,7 @@ else:
 ```bash
 # Step 1: Read the full entry (get version + all fields)
 ENTRY=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]")
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE")
 
 VERSION=$(echo "$ENTRY" | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
@@ -92,7 +92,7 @@ print(json.dumps({'fields': fields}))
 
 # Step 3: Write the full fields object back
 curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "Content-Type: application/vnd.contentful.management.v1+json" \
   -H "X-Contentful-Version: $VERSION" \
   -d "$UPDATED_FIELDS"
@@ -101,22 +101,22 @@ curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/mast
 ### Publish Entry (ONLY with explicit approval)
 ```bash
 VERSION=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
 curl -s -X PUT "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}/published" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "X-Contentful-Version: $VERSION"
 ```
 
 ### Unpublish Entry
 ```bash
 VERSION=$(curl -s "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['sys']['version'])")
 
 curl -s -X DELETE "https://api.contentful.com/spaces/2vm221913gep/environments/master/entries/{ENTRY_ID}/published" \
-  -H "Authorization: Bearer [REDACTED_CONTENTFUL_TOKEN]" \
+  -H "Authorization: Bearer CFPAT-YOUR_CMA_TOKEN_HERE" \
   -H "X-Contentful-Version: $VERSION"
 ```
 

@@ -9,7 +9,7 @@ description: Create new entries in Telnyx's Strapi CMS. Use when creating new /r
 
 ```
 Base URL: https://strapi.telnyx.tech/api
-API Token: [REDACTED_STRAPI_TOKEN]
+API Token: YOUR_STRAPI_API_TOKEN_HERE
 Staging Preview: https://www.dev.telnyx.com
 ```
 
@@ -58,7 +58,7 @@ If the user asks what fields are needed, return the template from INPUT_SCHEMA.m
 ### Create Entry (Draft)
 ```bash
 curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -89,7 +89,7 @@ curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts" \
 ### Look Up Authors
 ```bash
 curl -s "https://strapi.telnyx.tech/api/rc-authors?pagination[limit]=100" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['data']:
@@ -100,7 +100,7 @@ for item in data['data']:
 ### Look Up Categories
 ```bash
 curl -s "https://strapi.telnyx.tech/api/rc-categories?pagination[limit]=100" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['data']:
@@ -111,7 +111,7 @@ for item in data['data']:
 ### Look Up Topics
 ```bash
 curl -s "https://strapi.telnyx.tech/api/rc-topics?pagination[limit]=100" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['data']:
@@ -122,7 +122,7 @@ for item in data['data']:
 ### Upload Media to Library
 ```bash
 curl -s -X POST "https://strapi.telnyx.tech/api/upload" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -F "files=@/path/to/image.png" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
@@ -138,7 +138,7 @@ Use the returned `id` (numeric) as the `file` value in `featureImage`, `thumbnai
 ### Search Media Library
 ```bash
 curl -s "https://strapi.telnyx.tech/api/upload/files?filters[name][$contains]=search-term&pagination[limit]=10" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data:
@@ -150,7 +150,7 @@ for item in data:
 ```bash
 # ⚠️ This publishes the entry — only run with Max's explicit approval
 curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts/{documentId}/actions/publish" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json"
 ```
 

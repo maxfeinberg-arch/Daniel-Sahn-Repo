@@ -2,15 +2,16 @@
 
 _Learn about the person you're helping. Update this as you go._
 
-- **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
-- **Timezone:**
-- **Notes:**
+- **Name:** Max Feinberg
+- **What to call them:** Max
+- **Timezone:** America/Denver (MDT)
+- **Notes:** SEO lead at Telnyx
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+- Max owns SEO at Telnyx — all content should reflect strong SEO practice: clean slugs, structured headings (H1→H2→H3), sharp meta descriptions, keyword-intentional copy
+- Works across two CMSes: Contentful (product/use-case pages) and Strapi (resources, release notes)
+- Provided Strapi API token on 2026-03-12
 
 ---
 

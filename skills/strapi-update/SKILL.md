@@ -9,7 +9,7 @@ description: Update and publish existing entries in Telnyx's Strapi CMS. Use whe
 
 ```
 Base URL: https://strapi.telnyx.tech/api
-API Token: [REDACTED_STRAPI_TOKEN]
+API Token: YOUR_STRAPI_API_TOKEN_HERE
 Staging Preview: https://www.dev.telnyx.com
 ```
 
@@ -28,7 +28,7 @@ This skill handles:
 
 ## Auth Header
 ```
-Authorization: Bearer [REDACTED_STRAPI_TOKEN]
+Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE
 Content-Type: application/json
 ```
 
@@ -53,7 +53,7 @@ Content-Type: application/json
 ```bash
 # Always read the draft version
 curl -s -g "https://strapi.telnyx.tech/api/rc-posts?filters[slug][$eq]=my-slug&status=draft&populate=*" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" | python3 -c "
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 item = data['data'][0]
@@ -66,14 +66,14 @@ print('slug:', item['slug'])
 ### Get Full Entry (draft version)
 ```bash
 curl -s "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft&populate=*" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]"
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE"
 ```
 
 ### Update Entry Fields (ALWAYS use ?status=draft)
 ```bash
 # ⚠️ ?status=draft is REQUIRED — omitting it updates the live published version directly
 curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -87,13 +87,13 @@ curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draf
 ### Read Draft Version (before updating)
 ```bash
 curl -s "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft&populate=*" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]"
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE"
 ```
 
 ### Publish to Prod (ONLY with explicit approval from Max)
 ```bash
 curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -105,7 +105,7 @@ curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}" \
 ### Unpublish Entry
 ```bash
 curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -140,7 +140,7 @@ After publishing, the live site still serves the cached version. Revalidation pu
 ```bash
 # Step 1: Set modifiedDate to now (use ?status=draft then publish)
 curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draft" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
@@ -150,7 +150,7 @@ curl -s -X PUT "https://strapi.telnyx.tech/api/rc-posts/{documentId}?status=draf
 
 # Step 2: Re-publish with the updated modifiedDate
 curl -s -X POST "https://strapi.telnyx.tech/api/rc-posts/{documentId}/actions/publish" \
-  -H "Authorization: Bearer [REDACTED_STRAPI_TOKEN]" \
+  -H "Authorization: Bearer YOUR_STRAPI_API_TOKEN_HERE" \
   -H "Content-Type: application/json"
 
 # Step 3: Revalidate (no auth required)
