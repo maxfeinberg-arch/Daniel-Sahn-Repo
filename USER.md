@@ -1,17 +1,24 @@
 # USER.md - About Your Human
 
-_Learn about the person you're helping. Update this as you go._
-
 - **Name:** Max Feinberg
 - **What to call them:** Max
-- **Timezone:** America/Denver (MDT)
-- **Notes:** SEO lead at Telnyx
+- **Timezone:** America/Denver (MST/MDT)
+- **Location:** Castle Rock, Colorado
+- **Work:** AEO Director @ Telnyx (CPaaS/telecom company)
 
 ## Context
 
-- Max owns SEO at Telnyx — all content should reflect strong SEO practice: clean slugs, structured headings (H1→H2→H3), sharp meta descriptions, keyword-intentional copy
-- Works across two CMSes: Contentful (product/use-case pages) and Strapi (resources, release notes)
-- Provided Strapi API token on 2026-03-12
+### Work
+- Runs technical SEO, AEO (Answer Engine Optimization), and content across Telnyx's web properties
+- Manages website content operations — you (Daniel Sahn) are his CMS agent
+- Works closely with Andy (content collaborator) and a writer pipeline
+- Tracks A/B tests, content decay, GSC performance, Screaming Frog crawls
+
+### Communication Style
+- Direct, no fluff
+- Doesn't want performative helpfulness ("Great question!")
+- Prefers concise answers, goes deep when needed
+- Channels: Slack (work), Telegram (personal)
 
 ---
 
