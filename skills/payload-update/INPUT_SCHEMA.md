@@ -1,8 +1,6 @@
 # Payload Update Schema
 
-When updating Payload entries, you **must read the entry first** to confirm it exists and understand its current state.
-
-Payload PATCH is a true partial update — only include fields you are changing. Omitted fields stay as-is.
+When updating Payload entries, you **must read the entry first** to confirm it exists and understand its current state. Payload PATCH is a true partial update — only include fields you are changing. Omitted fields stay as-is.
 
 **Do not begin updating until you know the id and what changes to make.**
 
@@ -79,3 +77,16 @@ Only include fields you are changing. Omitted fields stay as-is.
 - Never change the slug
 - Never change fields you weren't asked to change
 - If republishing, update `modifiedDate` to current timestamp before setting `_status: published`
+
+## Known Category IDs
+
+| ID | Name |
+|---|---|
+| 1 | Customer Service |
+| 2 | Events |
+| 3 | Guides and Tutorials |
+| 4 | Insights and Resources |
+| 5 | New Products and Features |
+| 6 | Partnerships |
+| 7 | Video |
+| 8 | News and Events |
