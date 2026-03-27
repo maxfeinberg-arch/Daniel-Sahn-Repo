@@ -10,8 +10,8 @@ description: Update and publish existing entries in Telnyx's Payload CMS. Use wh
 ```
 Base URL: https://cms.telnyx.com/api
 Admin: https://cms.telnyx.com/admin
-API Key: REDACTED
-Auth Header: Authorization: users API-Key REDACTED
+API Key: ${PAYLOAD_API_KEY}
+Auth Header: Authorization: users API-Key ${PAYLOAD_API_KEY}
 Staging Preview: https://www.dev.telnyx.com
 ```
 
@@ -48,7 +48,7 @@ This skill handles:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/resources?where[slug][equals]=my-slug&draft=true&depth=1" \
-  -H "Authorization: users API-Key REDACTED" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 if data['docs']:
@@ -66,7 +66,7 @@ else:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/resources/{id}?draft=true&depth=1" \
-  -H "Authorization: users API-Key REDACTED"
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}"
 ```
 
 ### Update Entry Fields (PATCH — partial update)
@@ -74,7 +74,7 @@ curl -s "https://cms.telnyx.com/api/resources/{id}?draft=true&depth=1" \
 ```bash
 # Payload PATCH is a true partial update — only include fields you are changing
 curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
-  -H "Authorization: users API-Key REDACTED" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Updated Title",
@@ -91,7 +91,7 @@ When updating `dynamicSections`, you must send the **entire array** (not a parti
 
 ```bash
 curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
-  -H "Authorization: users API-Key REDACTED" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "dynamicSections": [
@@ -114,7 +114,7 @@ Publishing is done by PATCHing `_status` to `published`. Set `modifiedDate` at t
 ```bash
 # Publish (sets modifiedDate and _status in one PATCH)
 curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
-  -H "Authorization: users API-Key REDACTED" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "modifiedDate": "'"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"'",
@@ -126,7 +126,7 @@ curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
 
 ```bash
 curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
-  -H "Authorization: users API-Key REDACTED" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "_status": "draft"
@@ -138,26 +138,26 @@ curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
 ```bash
 # By status
 curl -s "https://cms.telnyx.com/api/resources?where[_status][equals]=published&limit=10&sort=-publishDate" \
-  -H "Authorization: users API-Key REDACTED"
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}"
 
 # By category
 curl -s "https://cms.telnyx.com/api/resources?where[category][equals]=4&limit=10&draft=true" \
-  -H "Authorization: users API-Key REDACTED"
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}"
 
 # By author
 curl -s "https://cms.telnyx.com/api/resources?where[author][equals]=20&limit=10&draft=true" \
-  -H "Authorization: users API-Key REDACTED"
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}"
 
 # Use draft=false for published (not where clause)
 curl -s "https://cms.telnyx.com/api/resources?draft=false&limit=10" \
-  -H "Authorization: users API-Key REDACTED"
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}"
 ```
 
 ### Look Up Authors
 
 ```bash
 curl -s "https://cms.telnyx.com/api/authors?limit=100" \
-  -H "Authorization: users API-Key REDACTED" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -169,7 +169,7 @@ for item in data['docs']:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/categories?limit=100" \
-  -H "Authorization: users API-Key REDACTED" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -181,7 +181,7 @@ for item in data['docs']:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/topics?limit=100" \
-  -H "Authorization: users API-Key REDACTED" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -193,7 +193,7 @@ for item in data['docs']:
 
 ```bash
 curl -s -X POST "https://cms.telnyx.com/api/media" \
-  -H "Authorization: users API-Key REDACTED" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -F "file=@/path/to/image.png" \
   -F "alt=Image alt text" | python3 -c "
 import sys, json
@@ -209,7 +209,7 @@ print('URL:', doc['url'])
 
 ```bash
 curl -s "https://cms.telnyx.com/api/media?where[filename][contains]=search-term&limit=10" \
-  -H "Authorization: users API-Key REDACTED" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
