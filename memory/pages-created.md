@@ -18,3 +18,14 @@
 - **Old title:** Inbound call handling: how it works and why it matters
 - **New title:** How Inbound Call Handling Works: Advanced routing + IVR explained
 - **Status:** Live
+
+## 2026-03-23 | programmable-sim (Strapi)
+- **URL:** https://telnyx.com/resources/programmable-sim
+- **Title:** Programmable SIM Cards: The Developer's Guide
+- **Author:** Eli Mogul
+- **Category:** Insights and Resources
+- **SEO Title:** What is a Programmable SIM Card?
+- **SEO Description:** Programmable SIM cards enable remote carrier selection and network switching. Learn how they work and why developers choose them.
+- **Feature Image:** Pending
+- **Status:** Draft (staging link active)
+- **documentId:** ya7vh1bgrdqvuc5ncjy7io2o
