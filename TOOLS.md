@@ -16,7 +16,7 @@
 ### Payload (Current)
 - Base URL: https://cms.telnyx.com/api
 - Admin: https://cms.telnyx.com/admin
-- API Key: 29ef162a-819a-4cc9-8686-953df35f3dfb
+- API Key: ${PAYLOAD_API_KEY}
 - Staging: https://www.dev.telnyx.com
 - Skills: payload-create, payload-update
 

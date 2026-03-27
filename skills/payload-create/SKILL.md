@@ -10,8 +10,8 @@ description: Create new entries in Telnyx's Payload CMS. Use when creating new /
 ```
 Base URL: https://cms.telnyx.com/api
 Admin: https://cms.telnyx.com/admin
-API Key: 535a9fb8-8f88-415e-be2f-a82fb883f496
-Auth Header: Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496
+API Key: ${PAYLOAD_API_KEY}
+Auth Header: Authorization: users API-Key ${PAYLOAD_API_KEY}
 Staging Preview: https://www.dev.telnyx.com
 ```
 
@@ -94,7 +94,7 @@ You can also use the flat `content` field if the article doesn't need per-sectio
 
 ```bash
 curl -s -X POST "https://cms.telnyx.com/api/resources" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Article Title",
@@ -130,7 +130,7 @@ Payload creates entries as drafts by default. Do NOT include `_status` in the re
 
 ```bash
 curl -s "https://cms.telnyx.com/api/authors?limit=100" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -142,7 +142,7 @@ for item in data['docs']:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/categories?limit=100" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -154,7 +154,7 @@ for item in data['docs']:
 
 ```bash
 curl -s "https://cms.telnyx.com/api/topics?limit=100" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -166,7 +166,7 @@ for item in data['docs']:
 
 ```bash
 curl -s -X POST "https://cms.telnyx.com/api/media" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -F "file=@/path/to/image.png" \
   -F "alt=Image alt text" | python3 -c "
 import sys, json
@@ -184,7 +184,7 @@ Use the returned `id` (numeric) as the `file` value in `featureImage`, `thumbnai
 
 ```bash
 curl -s "https://cms.telnyx.com/api/media?where[filename][contains]=search-term&limit=10" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" | python3 -c "
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for item in data['docs']:
@@ -199,7 +199,7 @@ Publishing is a two-step process: set `modifiedDate`, then set `_status` to `pub
 ```bash
 # Publish (sets modifiedDate and _status in one PATCH)
 curl -s -X PATCH "https://cms.telnyx.com/api/resources/{id}" \
-  -H "Authorization: users API-Key 535a9fb8-8f88-415e-be2f-a82fb883f496" \
+  -H "Authorization: users API-Key ${PAYLOAD_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
     "modifiedDate": "'"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"'",
