@@ -8,10 +8,17 @@
 - Staging: https://www.dev.telnyx.com
 - Skills: contentful-create, contentful-update
 
-### Strapi
+### Strapi (Legacy — migrated to Payload)
 - Base URL: https://strapi.telnyx.tech/api
 - Staging: https://www.dev.telnyx.com
 - Skills: strapi-create, strapi-update
+
+### Payload (Current)
+- Base URL: https://cms.telnyx.com/api
+- Admin: https://cms.telnyx.com/admin
+- API Key: 29ef162a-819a-4cc9-8686-953df35f3dfb
+- Staging: https://www.dev.telnyx.com
+- Skills: payload-create, payload-update
 
 ## A2A Network
 - Agent ID: marketing.squad:Daniel-Sahn:website-ops
